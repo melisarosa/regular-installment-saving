@@ -1,15 +1,11 @@
 package com.example.regularinstallmentsaving;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class SavingAccountController {
@@ -17,25 +13,24 @@ public class SavingAccountController {
     @Autowired
     private SavingAccountService savingAccountService;
 
-    @GetMapping("/calculate")
+    @GetMapping("/finalAmountEstimation")
     public SavingAccountDTO calculateSavingAccount(@RequestParam Integer tenor, @RequestParam BigDecimal firstAmount,
                                                    @RequestParam BigDecimal monthlyAmount){
         return savingAccountService.calculateSavingAccount(tenor, firstAmount, monthlyAmount);
     }
 
-    @PostMapping("/create")
-    public SavingAccountDTO createSavingAccount(@RequestParam Integer tenor, @RequestParam BigDecimal firstAmount,
-                                                @RequestParam BigDecimal monthlyAmount, @RequestParam String purpose){
-        return savingAccountService.createSavingAccount(tenor, firstAmount, monthlyAmount, purpose);
+    @PostMapping("/savingCreation")
+    public SavingAccountDTO createSavingAccount(@RequestBody SavingAccountDTO dto){
+        return savingAccountService.createSavingAccount(dto);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/savingList")
     public List<SavingAccountDTO> getAllSavings(){
-        return new ArrayList<>();
+        return savingAccountService.getAllSavings();
     }
 
-    @GetMapping("/getSavingDetails")
-    public SavingAccountDTO getSavingDetails(@RequestParam Integer savingId){
-        return new SavingAccountDTO();
+    @GetMapping("/savingDetails/{savingId}")
+    public Optional<SavingAccountDTO> getSavingDetails(@PathVariable Integer savingId){
+        return savingAccountService.getSavingDetails(savingId);
     }
 }

@@ -10,6 +10,15 @@ public class SavingAccountDTO {
     private BigDecimal firstAmount;
     private BigDecimal monthlyAmount;
     private Integer savingId;
+    private String purpose;
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
 
     public Integer getSavingId() {
         return savingId;
