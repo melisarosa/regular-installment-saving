@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class SavingAccountDTO {
 
     private BigDecimal estimatedFinalAmount;
-    private String status;
+    private Status status;
     private Integer tenor;
     private BigDecimal firstAmount;
     private BigDecimal monthlyAmount;
@@ -27,11 +27,11 @@ public class SavingAccountDTO {
         this.estimatedFinalAmount = estimatedFinalAmount;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

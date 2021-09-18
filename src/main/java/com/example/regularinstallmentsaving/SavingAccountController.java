@@ -15,7 +15,7 @@ import java.util.List;
 public class SavingAccountController {
 
     @Autowired
-    SavingAccountService savingAccountService;
+    private SavingAccountService savingAccountService;
 
     @GetMapping("/calculate")
     public SavingAccountDTO calculateSavingAccount(@RequestParam Integer tenor, @RequestParam BigDecimal firstAmount,
@@ -26,7 +26,7 @@ public class SavingAccountController {
     @PostMapping("/create")
     public SavingAccountDTO createSavingAccount(@RequestParam Integer tenor, @RequestParam BigDecimal firstAmount,
                                                 @RequestParam BigDecimal monthlyAmount, @RequestParam String purpose){
-        return new SavingAccountDTO();
+        return savingAccountService.createSavingAccount(tenor, firstAmount, monthlyAmount, purpose);
     }
 
     @GetMapping("/getAll")
