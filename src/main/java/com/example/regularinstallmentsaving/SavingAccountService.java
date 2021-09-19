@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SavingAccountService {
-    SavingAccountDTO calculateSavingAccount(Integer tenor, BigDecimal firstAmount, BigDecimal monthlyAmount);
+    SavingAccountDTO calculateSavingAccount(Integer tenor, BigDecimal firstAmount, BigDecimal monthlyAmount) throws Exception;
 
-    SavingAccountDTO createSavingAccount(SavingAccountDTO dto);
+    SavingAccountDTO createSavingAccount(SavingAccountDTO dto) throws Exception;
 
     List<SavingAccountDTO> getAllSavings();
 
-    Optional<SavingAccountDTO> getSavingDetails(Integer savingAccountId);
+    Optional<SavingAccountDTO> getSavingDetails(Integer savingAccountId) throws Exception;
 }

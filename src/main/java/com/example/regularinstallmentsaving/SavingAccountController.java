@@ -1,7 +1,9 @@
 package com.example.regularinstallmentsaving;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,12 +17,12 @@ public class SavingAccountController {
 
     @GetMapping("/finalAmountEstimation")
     public SavingAccountDTO calculateSavingAccount(@RequestParam Integer tenor, @RequestParam BigDecimal firstAmount,
-                                                   @RequestParam BigDecimal monthlyAmount){
+                                                   @RequestParam BigDecimal monthlyAmount) throws Exception {
         return savingAccountService.calculateSavingAccount(tenor, firstAmount, monthlyAmount);
     }
 
     @PostMapping("/savingCreation")
-    public SavingAccountDTO createSavingAccount(@RequestBody SavingAccountDTO dto){
+    public SavingAccountDTO createSavingAccount(@RequestBody SavingAccountDTO dto) throws Exception {
         return savingAccountService.createSavingAccount(dto);
     }
 
@@ -30,7 +32,11 @@ public class SavingAccountController {
     }
 
     @GetMapping("/savingDetails/{savingId}")
-    public Optional<SavingAccountDTO> getSavingDetails(@PathVariable Integer savingId){
-        return savingAccountService.getSavingDetails(savingId);
+    public Optional<SavingAccountDTO> getSavingDetails(@PathVariable Integer savingId) throws Exception {
+        Optional<SavingAccountDTO> dto = savingAccountService.getSavingDetails(savingId);
+        if(!dto.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+        }
+        return dto;
     }
 }

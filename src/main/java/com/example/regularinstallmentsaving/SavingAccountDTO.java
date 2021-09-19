@@ -12,6 +12,16 @@ public class SavingAccountDTO {
     private Integer savingId;
     private String purpose;
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private String message;
+
     public String getPurpose() {
         return purpose;
     }

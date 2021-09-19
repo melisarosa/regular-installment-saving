@@ -2,8 +2,6 @@ package com.example.regularinstallmentsaving;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity

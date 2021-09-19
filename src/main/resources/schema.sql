@@ -1,4 +1,4 @@
-create table  installment_saving(
+create table if not exists installment_saving(
 	id int auto_increment,
 	tenor int not null,
 	first_deposit_amount numeric(28,10) not null, 
