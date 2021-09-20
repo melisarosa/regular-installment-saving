@@ -18,11 +18,9 @@ public class SavingAccountServiceImpl implements SavingAccountService {
     @Override
     public SavingAccountDTO calculateSavingAccount(Integer tenor, BigDecimal firstAmount, BigDecimal monthlyAmount)
             throws Exception {
-        if (tenor.compareTo(0) < 1){
-            throw new Exception(Message.TENOR_SHOULD_BE_GREATER_THAN_ZERO.label);
-        }
+        validateInput(tenor, firstAmount, monthlyAmount);
         BigDecimal grandTotal = firstAmount.add(monthlyAmount.multiply(BigDecimal.valueOf(tenor - 1)));
-        BigDecimal interestRate = BigDecimal.valueOf(tenor).divide(new BigDecimal(12))
+        BigDecimal interestRate = BigDecimal.valueOf(tenor).divide(new BigDecimal(12), 10, BigDecimal.ROUND_UP)
                 .multiply(BigDecimal.valueOf(6)).divide(BigDecimal.valueOf(100));
         BigDecimal estimatedFinalAmount = interestRate.multiply(grandTotal).add(grandTotal);
         SavingAccountDTO dto = new SavingAccountDTO();
@@ -30,10 +28,20 @@ public class SavingAccountServiceImpl implements SavingAccountService {
         return dto;
     }
 
+    private void validateInput(Integer tenor, BigDecimal firstAmount, BigDecimal monthlyAmount) throws Exception {
+        if (tenor < 1){
+            throw new Exception(Message.TENOR_SHOULD_BE_GREATER_THAN_ZERO.label);
+        }
+        if (firstAmount.compareTo(BigDecimal.ZERO) < 1 || monthlyAmount.compareTo(BigDecimal.ZERO) < 1) {
+            throw new Exception(Message.AMOUNT_SHOULD_BE_GREATER_THAN_ZERO.label);
+        }
+    }
+
     @Override
     public SavingAccountDTO createSavingAccount(SavingAccountDTO dto) throws Exception {
         try {
             SavingAccountDTO savedDto = new SavingAccountDTO();
+            validateInput(dto.getTenor(), dto.getFirstAmount(), dto.getMonthlyAmount());
             InstallmentSavingEntity entity = SavingAccountMapper.mapToInstallmentSavingEntity(dto);
             entity.setCreationDate(Instant.now());
             entity.setStatus(Status.ACTIVE);

@@ -35,7 +35,7 @@ public class SavingAccountServiceTest {
     public void calculateSavingAccount_tenorIsZero_throwException() throws Exception {
         exceptionRule.expect(Exception.class);
         exceptionRule.expectMessage(Message.TENOR_SHOULD_BE_GREATER_THAN_ZERO.label);
-        savingAccountService.calculateSavingAccount(-1, BigDecimal.valueOf(1000),
+        savingAccountService.calculateSavingAccount(0, BigDecimal.valueOf(1000),
                 BigDecimal.valueOf(1000)).getEstimatedFinalAmount();
     }
 
@@ -47,7 +47,7 @@ public class SavingAccountServiceTest {
     }
 
     @Test
-    public void createSavingAccount_mandatoryFieldsFilled_returnSavedData() throws Exception {
+    public void createSavingAccount_mandatoryFieldsFilled_returnSuccessMessage() throws Exception {
         SavingAccountDTO dto = new SavingAccountDTO();
         dto.setTenor(3);
         dto.setFirstAmount(BigDecimal.valueOf(500));
